@@ -7,7 +7,8 @@ import org.json.JSONArray;
  * @author  Benjamin LAMBERT
  * @version 2021.09.01
  */
-public class Map{
+public class Map
+{
 
     private Room[] aRooms;
 
@@ -15,11 +16,17 @@ public class Map{
      * Create a map
      * @param pRoomNumber the number of the room that the map contain
      */
-    public Map(final int pRoomNumber){
+    public Map(final int pRoomNumber)
+    {
         this.aRooms = new Room[pRoomNumber];
     } // Map( params )
 
-    public JSONObject toJSONObject(){
+    /**
+     * Get the map as a JSON object
+     * @return the map to JSON object
+     */
+    public JSONObject toJSONObject()
+    {
         JSONObject vMap = new JSONObject();
         JSONArray vRooms = new JSONArray();
 

@@ -5,8 +5,8 @@ import org.json.JSONObject;
  * @author  Benjamin LAMBERT
  * @version 2021.09.01
  */
-public class Prodigium{
-
+public class Prodigium
+{
     private String aName;
     
     private int aHealth, aMaxHealth;
@@ -22,7 +22,8 @@ public class Prodigium{
     /**
      * Create a Prodigium with default properties
      */
-    public Prodigium(){
+    public Prodigium()
+    {
         this.aName = "UNKNOW";
 
         this.aHealth = 5;
@@ -46,7 +47,8 @@ public class Prodigium{
      * @param pID     the ID of the Prodigium
      * @param pType   the element type of the Prodigium
      */
-    public Prodigium(final String pName, final int pHealth, final int pEnergy, final int pLevel, final int pID, final Type pType){
+    public Prodigium(final String pName, final int pHealth, final int pEnergy, final int pLevel, final int pID, final Type pType)
+    {
         this.aName = pName;
 
         this.aHealth = pHealth;
@@ -73,7 +75,8 @@ public class Prodigium{
      * @param pType   the element type of the Prodigium
      */
     public Prodigium(final String pName, final int pHealth, final int pMaxHealth, final int pEnergy,
-                    final int pLevel, final int pXP, final int pMaxXP, final int pMaxEnergy, final int pID, final Type pType){
+                    final int pLevel, final int pXP, final int pMaxXP, final int pMaxEnergy, final int pID, final Type pType)
+    {
         this.aName = pName;
 
         this.aHealth = pHealth;
@@ -92,6 +95,7 @@ public class Prodigium{
     /**
      * Apply an amount of damage to the blocker
      * @param pAmount damage amount
+     * @return true if the Prodigium is dead
      */
     public boolean applyDamage(final int pAmount){
         this.aHealth -= pAmount;
@@ -102,11 +106,16 @@ public class Prodigium{
      * Send an attack to another blocker
      * @param pTarget   target of the attack
      * @param pAttackID the ID of the attack used
+     * @return true if the Prodigium is dead
      */
-    public boolean attack(final Blocker pTarget, final int pAttackID){
-        return pTarget.ApplyDamage(10);
+    public boolean attack(final Prodigium pTarget, final int pAttackID){
+        return pTarget.applyDamage(10);
     } // attack( params )
 
+    /**
+     * Get the Prodigium as a JSON object
+     * @return the Pordigium to JSON object
+     */
     public JSONObject toJSONObject(){
         JSONObject vJSONProdigium = new JSONObject();
 

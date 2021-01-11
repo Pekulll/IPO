@@ -3,14 +3,16 @@
  * @author  Benjamin LAMBERT
  * @version 2021.09.01
  */
-public class ElementTable{
+public class ElementTable
+{
 
     private Hashtable aElementTable;
 
     /**
      * Create a default element table
      */
-    public ElementTable(){
+    public ElementTable()
+    {
         this.aElementTable = new Hashtable(4);
         this.aElementTable.put(Type.Earth, Type.Water);
         this.aElementTable.put(Type.Water, Type.Fire);
@@ -22,7 +24,8 @@ public class ElementTable{
      * Create a custom element table
      * @param pTable the custom element table
      */
-    public ElementTable(final Hashtable pTable){
+    public ElementTable(final Hashtable pTable)
+    {
         this.aElementTable = pTable;
     } // ElementTable( params )
 
@@ -32,7 +35,8 @@ public class ElementTable{
      * @param pSender   the sender of the attack
      * @param pReceiver the receiver of the attack
      */
-    public int damageAmount(final int pAmount, final Prodigium pSender, final Prodigium pReceiver){
+    public int damageAmount(final int pAmount, final Prodigium pSender, final Prodigium pReceiver)
+    {
         if(pSender.getType() == pReceiver.getType()){
             return pAmount;
         }

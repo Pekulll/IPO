@@ -40,7 +40,7 @@ public class Magister
     public String getName()
     {
         return this.aName;
-    } // getName()
+    }
 
     /**
      * Get the level of the Magister
@@ -49,7 +49,7 @@ public class Magister
     public int getLevel()
     {
         return this.aLevel;
-    } // getLevel()
+    }
 
     /**
      * Get the team of the Magister
@@ -58,5 +58,5 @@ public class Magister
     public Prodigium[] getTeam()
     {
         return this.aTeam;
-    } // getTeam()
+    }
 }

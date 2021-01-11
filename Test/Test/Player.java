@@ -28,7 +28,7 @@ public class Player extends Magister
     public Room getRoom()
     {
         return this.currentRoom;
-    } // getRoom()
+    }
 
     /**
      * Get the player as a JSON object
@@ -48,5 +48,5 @@ public class Player extends Magister
         }
 
         return vPlayer;
-    } // toJSONObject()
+    }
 }

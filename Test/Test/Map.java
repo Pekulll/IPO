@@ -32,5 +32,5 @@ public class Map
         for(Room vRoom : this.aRooms){
             vRooms.add(vRoom.toJSONObject());
         }
-    } // toJSONObject()
+    }
 }

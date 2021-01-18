@@ -1,3 +1,5 @@
+import java.io.*;
+
 /**
  * A Magister (=Prodigium Owner)
  * @author  Benjamin LAMBERT

@@ -43,13 +43,13 @@ public class Game
      */
     private void goRoom( final Command pCommand )
     {
-        // a)
+        // Verify that there is a direction in the command
         if(!pCommand.hasSecondWord()){
             System.out.println("Go where?");
             return;
         }
         
-        // b)
+        // Choose the next room by direction
         Room vNextRoom = null;
         String vDirection = pCommand.getSecondWord();
         
@@ -65,11 +65,11 @@ public class Game
             System.out.println("Unknown direction!");
         }
         
-        // c)
+        // Show a message if there is no room
         if(vNextRoom == null) {
             System.out.println("There is no door");
         }
-        else { // d)
+        else { // Go to the next room and show every exit direction
             this.aCurrentRoom = vNextRoom;
             System.out.println( "You are " + this.aCurrentRoom.getDescription() );
             System.out.print( "Exits: " );

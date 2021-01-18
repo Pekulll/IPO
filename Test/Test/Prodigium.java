@@ -97,8 +97,7 @@ public class Prodigium
      * @param pAmount damage amount
      * @return true if the Prodigium is dead
      */
-    public boolean applyDamage(final int pAmount)
-    {
+    public boolean applyDamage(final int pAmount){
         this.aHealth -= pAmount;
         return this.aHealth <= 0;
     } // applyDamage( params )
@@ -109,8 +108,7 @@ public class Prodigium
      * @param pAttackID the ID of the attack used
      * @return true if the Prodigium is dead
      */
-    public boolean attack(final Prodigium pTarget, final int pAttackID)
-    {
+    public boolean attack(final Prodigium pTarget, final int pAttackID){
         return pTarget.applyDamage(10);
     } // attack( params )
 
@@ -121,14 +119,13 @@ public class Prodigium
     public Type getType()
     {
         return this.aType;
-    } // getType()
-
+    }
+    
     /**
      * Get the Prodigium as a JSON object
      * @return the Pordigium to JSON object
      */
-    public JSONObject toJSONObject()
-    {
+    public JSONObject toJSONObject(){
         JSONObject vJSONProdigium = new JSONObject();
 
         vJSONProdigium.put("name", this.aName);
@@ -143,7 +140,7 @@ public class Prodigium
         vJSONProdigium.put("type", this.aType);
 
         return vJSONProdigium;
-    } // toJSONObject()
+    }
 }
 
 /**

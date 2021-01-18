@@ -23,7 +23,7 @@ public class SaveManager
     public void SaveGame(final String pFilePath, final Player pPlayer, final Map pMap)
     {
         final String vGameDataInJson = new GameData(pPlayer, pMap).toJson();
-    } // SaveGame( params )
+    }
 
     /**
      * Get the state of the last game
@@ -31,7 +31,7 @@ public class SaveManager
      */
     public GameData LoadGame(final String pFilePath)
     {
-        return this.fromJson( // Json file content );
+        return this.fromJson( "" );
     }
 
     /**
@@ -41,10 +41,10 @@ public class SaveManager
     private GameData fromJson(final String json)
     {
 
-    } // fromJson()
+    }
 }
 
-public class GameData
+private class GameData
 {
     private Player aPlayer;
     private Map aMap;
@@ -67,7 +67,7 @@ public class GameData
         JSONObject vData = new JSONObject();
         vData.put("player", this.aPlayer.toJSONObject());
         vData.put("map", this.aMap.toJSONObject());
-    } // toJson()
+    }
 
     /**
      * Get the player
@@ -76,7 +76,7 @@ public class GameData
     public Player getPlayer()
     {
         return this.aPlayer;
-    } // getPlayer()
+    }
 
     /**
      * Get the map
@@ -85,5 +85,5 @@ public class GameData
     public Map getMap()
     {
         return this.aMap;
-    } // getMap()
+    }
 }

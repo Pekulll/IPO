@@ -7,6 +7,7 @@ package v1;
  */
 public class Room
 {
+    private String aName;
     private String aDescription;
     
     public Room aNorthExit;
@@ -16,12 +17,23 @@ public class Room
     
     /**
      * Create a Room object
-     * @params pDescription the description of the room
+     * @param pName the name of the room
+     * @param pDescription the description of the room
      */
-    public Room( final String pDescription )
+    public Room( final String pName, final String pDescription )
     {
+        this.aName = pName;
         this.aDescription = pDescription;
-    } // Room(.)
+    } // Room(..)
+    
+    /**
+     * Get the name of the current room
+     * @return String room's name
+     */
+    public String getName()
+    {
+        return this.aName;
+    } // getName()
     
     /**
      * Get the description of the current room

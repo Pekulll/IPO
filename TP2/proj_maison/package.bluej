@@ -17,21 +17,12 @@ dependency5.type=UsesDependency
 dependency6.from=Carre
 dependency6.to=Canvas
 dependency6.type=UsesDependency
-<<<<<<< HEAD
-editor.fx.0.height=739
-editor.fx.0.width=816
-editor.fx.0.x=552
-editor.fx.0.y=100
-objectbench.height=186
-objectbench.width=1133
-=======
 editor.fx.0.height=0
 editor.fx.0.width=0
 editor.fx.0.x=0
 editor.fx.0.y=0
-objectbench.height=112
-objectbench.width=1256
->>>>>>> parent of 066ba51... Revert "Début du moteur de jeu"
+objectbench.height=186
+objectbench.width=1133
 package.divider.horizontal=0.6
 package.divider.vertical=0.7981171548117155
 package.editor.height=756

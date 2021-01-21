@@ -75,7 +75,6 @@ public class Game
         
         // Starting point
         this.aCurrentRoom = vCave;
-        this.showDirections();
     } // createRooms()
     
     /**
@@ -83,6 +82,7 @@ public class Game
      */
     private void play()
     {
+        this.printWelcome();
         boolean vFinished = false;
         
         while(!vFinished){
@@ -114,15 +114,15 @@ public class Game
             return false;
         }
         
-        if(pCommand.getCommandWord().equals("go")){
+        if(pCommand.getCommandWord().equals("aller")){
             this.goRoom(pCommand);
             return false;
         }
-        else if(pCommand.getCommandWord().equals("help")){
+        else if(pCommand.getCommandWord().equals("aide")){
             this.printHelp();
             return false;
         }
-        else if(pCommand.getCommandWord().equals("quit")){
+        else if(pCommand.getCommandWord().equals("quitter")){
             return this.quit(pCommand);
         }
         

@@ -1,3 +1,4 @@
+
 package v1;
 import java.util.Scanner;
 
@@ -9,14 +10,16 @@ import java.util.Scanner;
 public class Game
 {
     private Room aCurrentRoom;
+    private Parser aParser;
     
     /**
      * Create the game
      */
     public Game()
     {
+        this.aParser = new Parser();
         this.createRooms();
-        this.handlePlayerCommand();
+        this.play();
     } // Game()
     
     /**
@@ -75,15 +78,82 @@ public class Game
         this.showDirections();
     } // createRooms()
     
-    private void handlePlayerCommand()
+    /**
+     * Start the game loop and enable the player to play at the game
+     */
+    private void play()
     {
-        Scanner scan = new Scanner ( System.in );
+        boolean vFinished = false;
         
-        while (true){
-             String command = scan.nextLine();
-             this.goRoom ( new Command ( command.split(" ")[0], command.split(" ")[1] ));
+        while(!vFinished){
+            Command vCommand = this.aParser.getCommand();
+            vFinished = this.processCommand ( vCommand );
         }
-    }
+        
+        System.out.println("Merci d'avoir joué ! A bientôt.");
+    } // play()
+    
+    /**
+     * Show a welcome message and the description of the current room
+     */
+    private void printWelcome()
+    {
+        System.out.println("Bienvenue à Terrafernum ! Un planète charmante...\nTapez 'aide' si vous avez besoin d'aide.\n");
+        this.showDirections();
+    } // printWelcome()
+    
+    /**
+     * Process a command by calling the correct method/function
+     * @parma pCommand the command to process
+     * @return true if the game is finished
+     */
+    private boolean processCommand( final Command pCommand )
+    {
+        if(pCommand.isUnknown()){
+            System.out.println("Je ne comprends pas ce que vous dites...");
+            return false;
+        }
+        
+        if(pCommand.getCommandWord().equals("go")){
+            this.goRoom(pCommand);
+            return false;
+        }
+        else if(pCommand.getCommandWord().equals("help")){
+            this.printHelp();
+            return false;
+        }
+        else if(pCommand.getCommandWord().equals("quit")){
+            return this.quit(pCommand);
+        }
+        
+        return false;
+    } // processCommand(.)
+    
+    /**
+     * Show a help message
+     */
+    private void printHelp()
+    {
+        System.out.println("Vous êtes perdu ?");
+        System.out.println("Vous n'avez qu'un mot à dire pourtant !\n");
+        System.out.print("Essayer de dire : ");
+        System.out.println("aller, quitter, aide");
+    } // printHelp()
+    
+    /**
+     * Process the quit command
+     * @parma pCommand the current command
+     * @return true if the command has a second word
+     */
+    private boolean quit( final Command pCommand )
+    {
+        if(!pCommand.hasSecondWord()){
+            System.out.println("Que voulez-vous quitter ?");
+            return false;
+        }
+        
+        return true;
+    } // quit(.)
     
     /**
      * Go to the room that the player has specified in the command

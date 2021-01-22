@@ -147,7 +147,7 @@ public class Game
      */
     private boolean quit( final Command pCommand )
     {
-        if(!pCommand.hasSecondWord()){
+        if(pCommand.hasSecondWord()){
             System.out.println("Que voulez-vous quitter ?");
             return false;
         }

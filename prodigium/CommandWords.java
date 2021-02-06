@@ -11,7 +11,7 @@
 public class CommandWords
 {
     // a constant array that will hold all valid command words
-    private final String[] aValidCommands = { "aller", "aide", "quitter" };
+    private final String[] aValidCommands = { "aller", "aide", "quitter", "regarder" };
 
     /**
      * Check whether a given String is a valid command word. 

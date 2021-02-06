@@ -1,17 +1,17 @@
+import java.util.HashMap;
+import java.util.Set;
+
 /**
  * A game room, where the player can be
  * @author  Benjamin LAMBERT
- * @version 2021.01.18
+ * @version 2021.02.06
  */
 public class Room
 {
     private String aName;
     private String aDescription;
     
-    private Room aNorthExit;
-    private Room aEastExit;
-    private Room aSouthExit;
-    private Room aWestExit;
+    private HashMap<String, Room> aExits;
     
     /**
      * Create a Room object
@@ -22,6 +22,7 @@ public class Room
     {
         this.aName = pName;
         this.aDescription = pDescription;
+        this.aExits = new HashMap<String, Room>();
     } // Room(..)
     
     /**
@@ -35,7 +36,7 @@ public class Room
     
     /**
      * Get the description of the current room
-     * @return String room's description
+     * @return the room's description
      */
     public String getDescription()
     {
@@ -43,7 +44,21 @@ public class Room
     } // getDescription()
     
     /**
-     * Set every exits of the current room
+     * Get the long description of the current room
+     * It's composed of the name, the description and the exits of the room
+     * @return the room's long description
+     */
+    public String getLongDescription()
+    {
+        String vLongDescription = "***** " + this.getName() + " *****\n";
+        vLongDescription += this.getDescription() + "\n";
+        vLongDescription += this.getExitString() + "\n";
+        
+        return vLongDescription;
+    } // getLongDescription()
+    
+    /**
+     * Set every common exits of the current room
      * @param pNorth north exit
      * @param pEast east exit
      * @param pSouth south exit
@@ -51,11 +66,23 @@ public class Room
      */
     public void setExits ( final Room pNorth, final Room pEast, final Room pSouth, final Room pWest )
     {
-        this.aNorthExit = pNorth;
-        this.aEastExit = pEast;
-        this.aSouthExit = pSouth;
-        this.aWestExit = pWest;
+        this.setExit ( "nord", pNorth );
+        this.setExit ( "est", pEast );
+        this.setExit ( "sud", pSouth );
+        this.setExit ( "ouest", pWest );
     } // setExits(....)
+    
+    /**
+     * Set an exit in a specific direction
+     * @param pDirection direction of the exit
+     * @param pRoom the exit
+     */
+    public void setExit( final String pDirection, final Room pRoom )
+    {
+        if(pRoom != null){
+            this.aExits.put( pDirection, pRoom );
+        }
+    } // setExit(..)
     
     /**
      * Get exit from a direction
@@ -64,39 +91,22 @@ public class Room
      */
     public Room getExit ( final String pDirection )
     {
-        if(pDirection.equals("nord")){
-            return this.aNorthExit;
-        } else if(pDirection.equals("est")){
-            return this.aEastExit;
-        } else if(pDirection.equals("sud")){
-            return this.aSouthExit;
-        } else if(pDirection.equals("ouest")){
-            return this.aWestExit;
-        } else {
-            System.out.println("Comment je suis censé faire pour aller dans cette direction ?!");
-            return null;
-        }
+        return this.aExits.get(pDirection);
     } // getExit(.)
     
     /**
      * Show every direction available from this room
+     * @return the serialized String with every exits
      */
-    public void showDirections ()
+    public String getExitString ()
     {
-        if(this.aNorthExit != null){
-            System.out.println("Nord : " + this.aNorthExit.getName() );
+        String vExit = "Vous voyez différents chemins :\n";
+        Set<String> vKeys = this.aExits.keySet();
+        
+        for ( String key : vKeys ){
+            vExit += key + " : " + this.aExits.get(key).getName() + "\n";
         }
-            
-        if(this.aEastExit != null){
-            System.out.println("Est : " + this.aEastExit.getName() );
-        }
-            
-        if(this.aSouthExit != null){
-            System.out.println("Sud : " + this.aSouthExit.getName() );
-        }
-            
-        if(this.aWestExit != null){
-            System.out.println("Ouest : " + this.aWestExit.getName() );
-        }
+        
+        return vExit;
     } // showDirections()
 } // Room

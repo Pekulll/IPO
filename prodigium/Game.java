@@ -3,7 +3,7 @@ import java.util.Scanner;
 /**
  * The game object, dict every act of the player
  * @author  Benjamin LAMBERT
- * @version 2021.01.18
+ * @version 2021.02.06
  */
 public class Game
 {
@@ -27,6 +27,7 @@ public class Game
     {
         // The name and the description of every room can be found in the GDD
         Room vCave = new Room ( "Grotte Oubliée", "Une grotte banale d’apparence mais qui renferme toute une société de Prodigiums.\nJ’y ai passé mes 5 dernières années en leur compagnie.\nIl est maintenant temps que je parte à l’aventure et que je me venge !");
+        Room vLowerCave = new Room ( "Grotte Oubliée - Niveau inférieur", "C'est ici que je passais la plupart de mon temps, une chambre en quelque sorte." );
         Room vVenandi = new Room ( "Venandi", "On dirait un petit village, principalement constitué de chasseurs de Prodigiums.\nL’odeur de la chair des Prodigiums en putréfaction est insoutenable !");
         Room vForest = new Room ( "Forêt des Asservis", "*vous lisez un panneau à l’entrée* \"Forêt des asservies : défense d’entrer !\" Une forêt magnifique...ment glauque…\nOn dirait bien que c’est le terrain de chasse des gens du village que l’on vient de traverser...");
         Room vRoad1 = new Room ( "Route 1", "C’est la route qui relie Venandi à Quaesti.");
@@ -42,6 +43,8 @@ public class Game
         
         // Exits assignement
         vCave.setExits ( null, vVenandi, null, null );
+        vLowerCave.setExit ( "haut", vCave );
+        vCave.setExit ( "bas", vLowerCave );
         vVenandi.setExits ( null, vForest, vRoad1, vCave );
         vForest.setExits ( null, null, null, vVenandi );
         vRoad1.setExits ( vVenandi, null, vQuaesti, null );
@@ -107,35 +110,13 @@ public class Game
         else if(pCommand.getCommandWord().equals("quitter")){
             return this.quit(pCommand);
         }
-        
-        return false;
-    } // processCommand(.)
-    
-    /**
-     * Show a help message
-     */
-    private void printHelp()
-    {
-        System.out.println("Vous êtes perdu ?");
-        System.out.println("Vous n'avez qu'un mot à dire pourtant !\n");
-        System.out.print("Essayer de dire : ");
-        System.out.println("aller, quitter, aide");
-    } // printHelp()
-    
-    /**
-     * Process the quit command
-     * @parma pCommand the current command
-     * @return true if the command has a second word
-     */
-    private boolean quit( final Command pCommand )
-    {
-        if(pCommand.hasSecondWord()){
-            System.out.println("Que voulez-vous quitter ?");
+        else if(pCommand.getCommandWord().equals("regarder")){
+            this.look();
             return false;
         }
         
-        return true;
-    } // quit(.)
+        return false;
+    } // processCommand(.)
     
     /**
      * Go to the room that the player has specified in the command
@@ -164,15 +145,42 @@ public class Game
         }
     } // goRoom(.)
     
+    private void look()
+    {
+        this.printLocationInfo();
+    }
+    
+    /**
+     * Show a help message
+     */
+    private void printHelp()
+    {
+        System.out.println("Vous êtes perdu ?");
+        System.out.println("Vous n'avez qu'un mot à dire pourtant !\n");
+        System.out.print("Essayer de dire : ");
+        System.out.println("aller, quitter, aide");
+    } // printHelp()
+    
+    /**
+     * Process the quit command
+     * @parma pCommand the current command
+     * @return true if the command has a second word
+     */
+    private boolean quit( final Command pCommand )
+    {
+        if(pCommand.hasSecondWord()){
+            System.out.println("Que voulez-vous quitter ?");
+            return false;
+        }
+        
+        return true;
+    } // quit(.)
+    
     /**
      * Show every direction available from the current room
      */
     private void printLocationInfo()
     {
-        System.out.println( "***** " + this.aCurrentRoom.getName() + " *****" );
-        System.out.println( this.aCurrentRoom.getDescription() );
-        System.out.println( "Vous voyez différents chemins : " );
-        this.aCurrentRoom.showDirections();
-        System.out.println("");
+        System.out.println( this.aCurrentRoom.getLongDescription() );
     } // printLocationInfo()
 } // Game

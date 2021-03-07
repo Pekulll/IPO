@@ -16,7 +16,7 @@ public class CompteMensuel extends CompteRemunere
     
     private void capitaliseMois( final int pNbMois )
     {
-        if(pNbMois < 0) return;
+        if(pNbMois <= 0) return;
         
         this.credite( this.getSolde() * this.getTaux() / 100 );
         this.capitaliseMois(pNbMois - 1);

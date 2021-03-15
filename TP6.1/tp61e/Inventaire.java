@@ -20,6 +20,11 @@ public class Inventaire
         this.aPrixTotal = 0;
     }
     
+    public List<Item> getItems()
+    {
+        return this.aListe;
+    }
+    
     public Item getItem( final String pName )
     {
         for(Item item : this.aListe){
@@ -70,5 +75,10 @@ public class Inventaire
     public void trieD()
     {
         this.aListe.sort(Collections.reverseOrder());
+    }
+    
+    public boolean equals( final Inventaire pInv )
+    {
+        return this.aListe.equals(pInv.getItems());
     }
 } // Inventaire

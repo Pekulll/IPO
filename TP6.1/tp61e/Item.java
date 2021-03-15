@@ -41,4 +41,9 @@ public class Item implements Comparable
             return vPrice.compareTo(vItem.getPrix());
         }
     }
+    
+    public boolean equals( final Item pItem )
+    {
+        return this.aPrix == pItem.getPrix() && this.aNom == pItem.getNom();
+    }
 } // Item

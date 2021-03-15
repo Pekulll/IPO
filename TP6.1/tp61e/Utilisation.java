@@ -39,5 +39,8 @@ public class Utilisation
         System.out.println(vInv.toString());
         vInv.trieD();
         System.out.println(vInv.toString());
+        
+        System.out.println(vInv.equals(vInv));
+        System.out.println(vInv.equals(new Inventaire()));
     }
 } // Utilisation

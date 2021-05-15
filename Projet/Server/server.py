@@ -7,7 +7,7 @@ import os
 from threading import Thread
 from color import Color
 
-os.system("title Prodigium Server - v2021.05.10 - by DeriWars (113 block)")
+os.system("title Prodigium Server - v2021.05.15 - by DeriWars (113 block)")
 
 class Battle():
     def __init__(self, player, addr, name):
@@ -15,11 +15,13 @@ class Battle():
         self.player_1_name = name
         self.player_1_addr = addr
         self.player_1_attack = None
+        self.player_1_team = None
         
         self.player_2 = None
         self.player_2_name = None
         self.player_2_addr = None
         self.player_2_attack = None
+        self.player_2_team = None
         
         self.turn = 0
         self.is_accepted = False
@@ -41,6 +43,19 @@ class Battle():
         conn.send(len(msg).to_bytes(2, byteorder='big'))
         conn.send(msg)
         
+    def set_team(self, name, team):
+        if name == self.player_1_name:
+            self.player_1_team = team
+        elif name == self.player_2_name:
+            self.player_2_team = team
+        
+        if self.player_1_team != None and self.player_2_team != None:
+            self.send(self.player_1, self.player_2_team)
+            self.send(self.player_2, self.player_1_team)
+            print(f"[{Color.CVIOLET}/{Color.CEND}] ({self.__repr__()}) Teams have been sended to every players involved.")
+            
+#region Attack
+
     def set_player_attack(self, name, index):
         if name == self.player_1_name:
             self.set_player_1_attack(index)
@@ -58,7 +73,7 @@ class Battle():
 
         if self.player_1_attack != None:
             self.proceed()
-            
+
     def proceed(self):
         self.send(self.player_1, f"{self.player_2_attack}")
         self.player_2_attack = None
@@ -67,9 +82,11 @@ class Battle():
         self.player_1_attack = None
         
         self.turn += 1
+
+#endregion
         
     def __repr__(self):
-        return f"{self.player_1_addr[0]} {self.player_1_name} // {self.player_2_addr[0]} {self.player_2_name}"
+        return f"[{self.player_1_addr[0]}] {self.player_1_name} // [{self.player_2_addr[0]}] {self.player_2_name}"
 
 
 
@@ -98,7 +115,7 @@ class Server():
         if not name in self.alive:
             self.alive.append(name)
             
-        print(f"[{Color.CGREEN2}+{Color.CEND}] New client connected at {addr[0]} with the name {name}.")
+        print(f"[{Color.CGREEN2}+{Color.CEND}] New client's connection from {addr[0]} with the name {name}.")
         fighting = False
         battle = None
         
@@ -111,15 +128,17 @@ class Server():
                         break
                     elif msg.startswith("match"): # USED TO CREATE OR ACCEPT A MATCH
                         if not fighting:
-                            self.match(conn, addr, name, msg.replace("match ", ""))
+                            battle = self.match(conn, addr, name, msg.replace("match ", ""))
                         else:
-                            print(f"[=] Can't create another match while your are fighting")
+                            print(f"[{Color.CVIOLET}/{Color.CEND}] Can't create another match while your are fighting")
                             self.send(conn, "impossible")
                     elif msg.startswith("attack") and battle != None: # USED TO ATTACK DURING A BATTLE
                         index = int(msg.replace("attack ", ""))
                         battle.set_player_attack(name, index)
                     elif msg == "decline": # USED TO DECLINE A MATCH
                         self.decline(name)
+                    elif msg.startswith("team ") and battle != None: # USED TO SYNC TEAM BETWEEN PLAYERS
+                        battle.set_team(name, msg.replace("team ", ""))
                     elif msg == "death": # USED TO END THE BATTLE
                         pass
                     elif msg == "list": # USED TO DISPLAY THE LIST OF PLAYER AVAILABLE
@@ -149,11 +168,11 @@ class Server():
     def match(self, conn, addr, name, opponent):
         if not str(opponent) in self.alive:
             self.send(conn, "notfound")
-            return
+            return None
         
         if str(opponent) == name:
             self.send(conn, "isplayer")
-            return
+            return None
         
         opponent_fighting = self.check_opponent(opponent)
 
@@ -165,25 +184,28 @@ class Server():
                 battle.broadcast("accepted")
             else:
                 battle.broadcast("sended")
+                
+            return battle
         else:
-            print(f"[=] {opponent} is already in fight!")
+            print(f"[{Color.CVIOLET}/{Color.CEND}] {opponent} is already in fight!")
             self.send(conn, "fighting")
+            return None
     
     def challenge(self, player, addr, name, opponent):
         if name == opponent:
-            print(f"[=] Creating a match is only available with another person than the challenger.")
+            print(f"[{Color.CVIOLET}/{Color.CEND}] Creating a match is only available with another person than the challenger.")
             
         for battle in self.battles:
             if battle.player_1_name == opponent:
                 if not battle.is_accepted:
                     battle.accept(player, addr, name)
-                    print(f"[=] Match accepted between [{battle.player_1_addr[0]}] {battle.player_1_name} and [{battle.player_2_addr[0]}] {battle.player_2_name}")
+                    print(f"[{Color.CVIOLET}/{Color.CEND}] Match accepted between [{battle.player_1_addr[0]}] {battle.player_1_name} and [{battle.player_2_addr[0]}] {battle.player_2_name}")
                     
                 return battle
         
         new_battle = Battle(player, addr, name)
         self.battles.append(new_battle)
-        print(f"[=] Match created by [{new_battle.player_1_addr[0]}] {new_battle.player_1_name}")
+        print(f"[{Color.CVIOLET}/{Color.CEND}] Match created by [{new_battle.player_1_addr[0]}] {new_battle.player_1_name}")
         return self.battles[len(self.battles) - 1]
         
     def clear(self, player_1, player_2):
